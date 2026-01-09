@@ -1,7 +1,7 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
-import Login from '@/views/login.tsx'
-import NotFound from '@/views/404.tsx'
-import Forbidden from '@/views/403.jsx'
+import { Navigate, useRoutes } from 'react-router-dom'
+import Login from '@/views/login'
+import NotFound from '@/views/404'
+import Forbidden from '@/views/403'
 
 const router = [
   {
@@ -26,4 +26,8 @@ const router = [
   }
 ]
 
-export default createBrowserRouter(router)
+// export default createBrowserRouter(router)
+
+export default function Router() {
+  return useRoutes(router)
+}

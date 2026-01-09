@@ -12,7 +12,15 @@ export default defineConfig({
   server: {
     host: '127.0.0.1',
     port: 8080,
-    open: true
+    open: true,
+    proxy: {
+      '/api': {
+        target: 'http://180.76.125.105:4000',
+        changeOrigin: true,
+        secure: false,
+        rewrite: path => path.replace(/^\/api/, '')
+      }
+    }
   },
   plugins: [react()]
 })
