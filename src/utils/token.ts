@@ -1,3 +1,9 @@
+/**
+ * token的封装
+ * @param token token值
+ * @returns token值
+ */
+
 const tokenKey = 'token'
 
 export const getToken = () => {

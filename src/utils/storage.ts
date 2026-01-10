@@ -1,4 +1,8 @@
-// localStorage的封装
+/**
+ * localStorage的封装
+ * @param key 键
+ * @param value 值
+ */
 
 export default {
   set(key: string, value: string | object | null) {

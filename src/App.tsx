@@ -6,6 +6,8 @@ import Router from './router'
 import GlobalLoading from '@/components/GlobalLoading'
 import { useEffect, useState } from 'react'
 import { registerLoading, unregisterLoading } from '@/utils/loading'
+// antd的主题
+import { ConfigProvider } from 'antd'
 
 function App() {
   // return <RouterProvider router={router} />
@@ -20,7 +22,16 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Router></Router>
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: '#00b96b'
+          }
+        }}
+      >
+        <Router></Router>
+      </ConfigProvider>
+
       <GlobalLoading visible={loading} />
     </BrowserRouter>
   )
