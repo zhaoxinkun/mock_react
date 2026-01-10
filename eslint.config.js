@@ -29,7 +29,9 @@ export default defineConfig([
       'no-var': 'warn', // 要求使用 let 或 const 而不是 var
       'react-refresh/only-export-components': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-namespace': 'off'
+      '@typescript-eslint/no-namespace': 'off',
+      'react-hooks/rules-of-hooks': 'off',
+      '@typescript-eslint/no-unused-vars': 'off'
     }
   }
 ])

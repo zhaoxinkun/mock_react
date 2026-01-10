@@ -11,10 +11,13 @@ import type { login as LoginParams } from '@/types/api'
 import storage from '@/utils/storage'
 
 // 状态管理
-import store from '@/store'
+import store, { useStore } from '@/store'
 
 export default function Login() {
   const navigete = useNavigate()
+
+  // 使用小熊
+  const state = useStore()
 
   const { message } = App.useApp() // ✅ v6 使用正解
 
@@ -25,6 +28,7 @@ export default function Login() {
     storage.set('token', data)
     // 更新store的token
     store.token = data
+    state.updateToken(data)
     message.success('登录成功')
     setTimeout(() => {
       navigete('/welcome')

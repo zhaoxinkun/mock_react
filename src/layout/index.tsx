@@ -7,14 +7,16 @@ import { Outlet } from 'react-router-dom'
 import style from './index.module.less'
 import { useEffect } from 'react'
 import { getUserInfo } from '@/api/api'
-import store from '@/store'
+import store, { useStore } from '@/store'
 import type { User } from '@/types/api'
 
 export function layout() {
   const { Content, Sider } = Layout
 
+  const state = useStore()
+
   // 这里发送用户数据请求.可以优化为在登录后发送
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+
   useEffect(() => {
     getUserInfoAsync()
   }, [])
@@ -26,6 +28,8 @@ export function layout() {
     console.log('🚀 ~ getUserInfoAsync ~ data: ', data)
     // 存放到store中用来供其他展示位读取
     store.updateUserInfo(data)
+    // 给小熊也存一份
+    state.updateUserInfo(data)
   }
 
   return (

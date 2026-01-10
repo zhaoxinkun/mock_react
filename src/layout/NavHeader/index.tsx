@@ -3,8 +3,13 @@ import { Breadcrumb, Dropdown, type MenuProps, Switch } from 'antd'
 import style from './index.module.less'
 import store from '@/store'
 import storage from '@/utils/storage'
+import { useStore } from '@/store'
 
 const NavHeader = () => {
+  // 读取store
+  const state = useStore()
+
+  // 面包屑数据
   const BreadcrumbItem = [
     {
       title: 'Home'
@@ -17,14 +22,17 @@ const NavHeader = () => {
     }
   ]
 
+  // 下拉菜单数据
   const items: MenuProps['items'] = [
     {
       key: '1',
-      label: `用户邮箱: ${store.userInfo?.userEmail || 'userEmail'}`
+      // label: `用户邮箱: ${store.userInfo?.userEmail || 'userEmail'}`,
+      label: `用户邮箱: ${state.userInfo?.userEmail || 'userEmail'}`
     },
     {
       key: '2',
-      label: `用户ID: ${store.userInfo?.userId || 'userId'}`
+      // label: `用户ID: ${store.userInfo?.userId || 'userId'}`,
+      label: `用户ID: ${state.userInfo?.userId || 'userId'}`
     },
     {
       key: '3',
