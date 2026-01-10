@@ -3,25 +3,25 @@
 import './App.css'
 import { BrowserRouter } from 'react-router-dom'
 import Router from './router'
-// import GlobalLoading from '@/components/GlobalLoading'
-// import { useEffect, useState } from 'react'
-// import { registerLoading, unregisterLoading } from '@/utils/loading'
+import GlobalLoading from '@/components/GlobalLoading'
+import { useEffect, useState } from 'react'
+import { registerLoading, unregisterLoading } from '@/utils/loading'
 
 function App() {
   // return <RouterProvider router={router} />
 
-  // const [loading, setLoading] = useState(false)
-  //
-  // useEffect(() => {
-  //   registerLoading(setLoading)
-  //   //这里是组件销毁的时候的清理函数
-  //   return () => unregisterLoading(setLoading)
-  // }, [])
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    registerLoading(setLoading)
+    //这里是组件销毁的时候的清理函数
+    return () => unregisterLoading(setLoading)
+  }, [])
 
   return (
     <BrowserRouter>
       <Router></Router>
-      {/*<GlobalLoading visible={loading} />*/}
+      <GlobalLoading visible={loading} />
     </BrowserRouter>
   )
 }

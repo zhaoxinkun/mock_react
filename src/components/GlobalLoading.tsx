@@ -13,7 +13,7 @@ const GlobalLoading = ({ visible }: GlobalLoadingProps) => {
 
   return (
     <div style={maskStyle}>
-      <Spin size='large' tip='加载中...' />
+      <Spin size='large'>加载中...</Spin>
     </div>
   )
 }

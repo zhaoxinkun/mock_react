@@ -2,18 +2,18 @@ import service from './axios'
 
 const http = {
   // get请求
-  get: (url: string, params: unknown) => service.get(url, { params }),
+  get: <T>(url: string, params?: object) => service.get<T>(url, { params }),
 
   // post请求
-  post: (url: string, params: unknown) => service.post(url, params),
+  post: <T>(url: string, params?: object) => service.post<T>(url, params),
 
   // put请求
-  put: (url: string, data: object) => service.put(url, data),
+  put: <T>(url: string, data?: object) => service.put<T>(url, data),
 
-  patch: (url: string, data: object) => service.patch(url, data),
+  patch: <T>(url: string, data?: object) => service.patch<T>(url, data),
 
   // 删除请求
-  delete: (url: string, params: unknown) => service.delete(url, { params })
+  delete: <T>(url: string, params?: object) => service.delete<T>(url, { params })
 }
 
 export default http

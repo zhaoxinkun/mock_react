@@ -3,10 +3,13 @@ import axios from 'axios'
 import { getToken, removeToken } from '@/utils/token'
 import type { ApiResponse } from '@/types/api'
 import { message } from 'antd'
-// import { showLoading, hideLoading } from '@/utils/loading'
+import { showLoading, hideLoading } from '@/utils/loading'
+
+// 读取env的地址
+console.log(import.meta.env.VITE_BASE_API)
 
 const service = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_BASE_API,
   timeout: 10000,
   timeoutErrorMessage: '请求超时,请稍后重试',
   withCredentials: true
@@ -14,7 +17,7 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
-    // showLoading()
+    showLoading()
     const token = getToken()
     if (token) {
       config.headers = config.headers ?? {}
@@ -23,7 +26,7 @@ service.interceptors.request.use(
     return config
   },
   error => {
-    // hideLoading()
+    hideLoading()
     return Promise.reject(error)
   }
 )
@@ -31,13 +34,13 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   response => {
-    // hideLoading()
+    hideLoading()
     const data = response.data as ApiResponse<any>
 
     if (data.code === 500001) {
       message.error(data.msg)
       removeToken()
-      location.href = '/login'
+      // location.href = '/login'
       return Promise.reject(data)
     } else if (data.code !== 0) {
       message.error(data.msg)
@@ -46,7 +49,7 @@ service.interceptors.response.use(
     return data.data
   },
   error => {
-    // hideLoading()
+    hideLoading()
     const status = error.response?.status
     if (status === 403) {
       window.location.href = '/403'
