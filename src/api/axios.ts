@@ -3,7 +3,7 @@ import axios from 'axios'
 import { getToken, removeToken } from '@/utils/token'
 import type { ApiResponse } from '@/types/api'
 import { message } from 'antd'
-import { showLoading, hideLoading } from '@/utils/loading'
+// import { showLoading, hideLoading } from '@/utils/loading'
 
 const service = axios.create({
   baseURL: '/api',
@@ -12,19 +12,18 @@ const service = axios.create({
   withCredentials: true
 })
 
-// 请求拦截器
 service.interceptors.request.use(
   config => {
-    showLoading()
+    // showLoading()
     const token = getToken()
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`
+      config.headers = config.headers ?? {}
+      ;(config.headers as Record<string, string>)['Authorization'] = `Bearer ${token}`
     }
-    return {
-      ...config
-    }
+    return config
   },
   error => {
+    // hideLoading()
     return Promise.reject(error)
   }
 )
@@ -32,7 +31,7 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   response => {
-    hideLoading()
+    // hideLoading()
     const data = response.data as ApiResponse<any>
 
     if (data.code === 500001) {
@@ -47,12 +46,15 @@ service.interceptors.response.use(
     return data.data
   },
   error => {
-    hideLoading()
-    if (error.response.status === 403) {
+    // hideLoading()
+    const status = error.response?.status
+    if (status === 403) {
       window.location.href = '/403'
     }
     return Promise.reject(error)
   }
 )
+
+// 响应拦截器
 
 export default service

@@ -7,6 +7,7 @@ interface GlobalLoadingProps {
   visible: boolean
 }
 
+// 传一个布尔值 控制全局加载组件的显示
 const GlobalLoading = ({ visible }: GlobalLoadingProps) => {
   if (!visible) return null
 
