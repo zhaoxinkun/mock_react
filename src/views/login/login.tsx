@@ -1,3 +1,7 @@
+// React 内容
+import { useNavigate } from 'react-router-dom'
+
+// 样式引入
 import style from './login.module.less'
 import { App, Button, Form, Input } from 'antd'
 
@@ -5,7 +9,9 @@ import { App, Button, Form, Input } from 'antd'
 import { login } from '@/api/api'
 import type { login as LoginParams } from '@/types/api'
 import storage from '@/utils/storage'
-import { useNavigate } from 'react-router-dom'
+
+// 状态管理
+import store from '@/store'
 
 export default function Login() {
   const navigete = useNavigate()
@@ -15,7 +21,10 @@ export default function Login() {
   const onFinish = async (values: LoginParams.Params) => {
     const data = await login(values)
     console.log('🚀 ~ onFinish ~ data: ', data)
+    // 把token 放入storage
     storage.set('token', data)
+    // 更新store的token
+    store.token = data
     message.success('登录成功')
     setTimeout(() => {
       navigete('/welcome')

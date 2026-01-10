@@ -5,10 +5,10 @@
 
 import http from './http'
 
-import type { login as LoginParams } from '@/types/api'
+import type { login as LoginParams, User } from '@/types/api'
 
 // 登陆
-export const login = (params: LoginParams.Params) => http.post(`/users/login`, params)
+export const login = (params: LoginParams.Params) => http.post<string>(`/users/login`, params)
 
 // 获取用户信息
-export const getUserInfo = () => http.post(`/users/getUserInfo`)
+export const getUserInfo = () => http.get<User.UserItem>(`/users/getUserInfo`)
