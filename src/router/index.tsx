@@ -2,15 +2,27 @@ import { Navigate, useRoutes } from 'react-router-dom'
 import Login from '@/views/login/login'
 import NotFound from '@/views/404'
 import Forbidden from '@/views/403'
+import { layout as Layout } from '@/layout'
+import Welcome from '@/views/Welcome'
 
 const router = [
   {
     path: '/',
-    element: <div>Welcome </div>
+    element: <Navigate to='/welcome' />
   },
   {
     path: '/login',
     element: <Login />
+  },
+
+  {
+    element: <Layout />,
+    children: [
+      {
+        path: '/welcome',
+        element: <Welcome />
+      }
+    ]
   },
   {
     path: '*',

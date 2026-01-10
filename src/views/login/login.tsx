@@ -1,9 +1,32 @@
 import style from './login.module.less'
-import { Button, Form, Input } from 'antd'
+import { App, Button, Form, Input } from 'antd'
+
+// login的接口以及类型定义
+import { login } from '@/api/api'
+import type { login as LoginParams } from '@/types/api'
+import storage from '@/utils/storage'
+import { useNavigate } from 'react-router-dom'
 
 export default function Login() {
-  const onFinish = (value: object) => {
-    console.log(value)
+  const navigete = useNavigate()
+
+  const { message } = App.useApp() // ✅ v6 使用正解
+
+  const onFinish = async (values: LoginParams.Params) => {
+    const data = await login(values)
+    console.log('🚀 ~ onFinish ~ data: ', data)
+    storage.set('token', data)
+    message.success('登录成功')
+    setTimeout(() => {
+      navigete('/welcome')
+    }, 3000)
+
+    const params = new URLSearchParams(location.search)
+    console.log('🚀 ~ onFinish ~ params: ', params)
+    // setTimeout(() => {
+    //   location.href = params.get('callback') || '/welcome'
+    //   console.log('🚀 ~ onFinish ~ location.href: ', location.href)
+    // })
   }
   return (
     <div className={style.login}>
@@ -11,16 +34,16 @@ export default function Login() {
         <div className='title'>系统登陆</div>
         <Form name='basic' initialValues={{ remember: true }} onFinish={onFinish} autoComplete='off'>
           <Form.Item
-            label='Username'
-            name='username'
+            label='用户账号'
+            name='userName'
             rules={[{ required: true, message: 'Please input your username!' }]}
           >
             <Input />
           </Form.Item>
 
           <Form.Item
-            label='Password'
-            name='password'
+            label='用户密码'
+            name='userPwd'
             rules={[{ required: true, message: 'Please input your password!' }]}
           >
             <Input.Password />

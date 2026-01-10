@@ -4,36 +4,40 @@ import './App.css'
 import { BrowserRouter } from 'react-router-dom'
 import Router from './router'
 import GlobalLoading from '@/components/GlobalLoading'
-import { useEffect, useState } from 'react'
-import { registerLoading, unregisterLoading } from '@/utils/loading'
+import { App as AntdApp } from 'antd'
 // antd的主题
 import { ConfigProvider } from 'antd'
+import { useGlobalLoading } from '@/hooks/useGlobalLoading'
 
 function App() {
   // return <RouterProvider router={router} />
 
-  const [loading, setLoading] = useState(false)
+  // const [loading, setLoading] = useState(false)
+  //
+  // useEffect(() => {
+  //   registerLoading(setLoading)
+  //   //这里是组件销毁的时候的清理函数
+  //   return () => unregisterLoading(setLoading)
+  // }, [])
 
-  useEffect(() => {
-    registerLoading(setLoading)
-    //这里是组件销毁的时候的清理函数
-    return () => unregisterLoading(setLoading)
-  }, [])
+  const loading = useGlobalLoading()
 
   return (
-    <BrowserRouter>
-      <ConfigProvider
-        theme={{
-          token: {
-            colorPrimary: '#00b96b'
-          }
-        }}
-      >
-        <Router></Router>
-      </ConfigProvider>
+    <AntdApp>
+      <BrowserRouter>
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: '#FFCC00'
+            }
+          }}
+        >
+          <Router></Router>
+        </ConfigProvider>
 
-      <GlobalLoading visible={loading} />
-    </BrowserRouter>
+        <GlobalLoading visible={loading} />
+      </BrowserRouter>
+    </AntdApp>
   )
 }
 

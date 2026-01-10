@@ -28,7 +28,8 @@ export default defineConfig([
       'no-debugger': 'error', // 禁止使用debugger
       'no-var': 'warn', // 要求使用 let 或 const 而不是 var
       'react-refresh/only-export-components': 'off',
-      '@typescript-eslint/no-explicit-any': 'off'
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-namespace': 'off'
     }
   }
 ])

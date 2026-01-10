@@ -1,9 +1,9 @@
 // axios实例的封装
 import axios from 'axios'
-import { getToken, removeToken } from '@/utils/token'
 import type { ApiResponse } from '@/types/api'
 import { message } from 'antd'
 import { showLoading, hideLoading } from '@/utils/loading'
+import storage from '@/utils/storage'
 
 // 读取env的地址
 console.log(import.meta.env.VITE_BASE_API)
@@ -12,18 +12,22 @@ const service = axios.create({
   baseURL: import.meta.env.VITE_BASE_API,
   timeout: 10000,
   timeoutErrorMessage: '请求超时,请稍后重试',
-  withCredentials: true
+  withCredentials: true,
+  headers: {
+    icode: '593F88CA4639E2DA'
+  }
 })
 
 service.interceptors.request.use(
   config => {
     showLoading()
-    const token = getToken()
+    const token = storage.get('token')
     if (token) {
-      config.headers = config.headers ?? {}
-      ;(config.headers as Record<string, string>)['Authorization'] = `Bearer ${token}`
+      config.headers.Authorization = 'Bearer ' + token
     }
-    return config
+    return {
+      ...config
+    }
   },
   error => {
     hideLoading()
@@ -35,12 +39,11 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     hideLoading()
-    const data = response.data as ApiResponse<any>
+    const data: ApiResponse = response.data
 
     if (data.code === 500001) {
       message.error(data.msg)
-      removeToken()
-      // location.href = '/login'
+      storage.remove('token')
       return Promise.reject(data)
     } else if (data.code !== 0) {
       message.error(data.msg)
@@ -57,7 +60,5 @@ service.interceptors.response.use(
     return Promise.reject(error)
   }
 )
-
-// 响应拦截器
 
 export default service
